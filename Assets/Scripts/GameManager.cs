@@ -97,7 +97,7 @@ public class GameManager : MonoBehaviour
         mainCam = Camera.main;
         targetZoom = mainCam.orthographicSize;
 
-        /*float room_width = 3;
+        float room_width = 3;
         float room_height = 3;
 
         float tileCoeff = 2.61996f;
