@@ -9,7 +9,7 @@
     <ProductVersion>10.0.20506</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
     <RootNamespace></RootNamespace>
-    <ProjectGuid>{a6a24fc1-ff77-25eb-6093-12d0a23fe887}</ProjectGuid>
+    <ProjectGuid>{efab7cb2-1f79-2330-4fcc-1a60d4f377f8}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <AssemblyName>PackageToolsEditor</AssemblyName>
@@ -233,22 +233,22 @@
         <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.19f1/Editor/Data/PlaybackEngines/WindowsStandaloneSupport/UnityEditor.WindowsStandalone.Extensions.dll</HintPath>
     </Reference>
     <Reference Include="Pathfinding.Ionic.Zip.Reduced">
-        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk2020-Updated/CyberjunkCoolRepository/Assets/EnemyAI/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
+        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk-Demo/Cyberjunk-Demo/Assets/EnemyAI/AstarPathfindingProject/Plugins/DotNetZip/Pathfinding.Ionic.Zip.Reduced.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Editor">
-        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk2020-Updated/CyberjunkCoolRepository/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
+        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk-Demo/Cyberjunk-Demo/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Editor.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.Tracker">
-        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk2020-Updated/CyberjunkCoolRepository/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
+        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk-Demo/Cyberjunk-Demo/Library/PackageCache/com.unity.analytics@3.3.5/Unity.Analytics.Tracker.dll</HintPath>
     </Reference>
     <Reference Include="Unity.Analytics.StandardEvents">
-        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk2020-Updated/CyberjunkCoolRepository/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
+        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk-Demo/Cyberjunk-Demo/Library/PackageCache/com.unity.analytics@3.3.5/AnalyticsStandardEvents/Unity.Analytics.StandardEvents.dll</HintPath>
     </Reference>
     <Reference Include="ICSharpCode.NRefactory">
-        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk2020-Updated/CyberjunkCoolRepository/Library/PackageCache/com.unity.render-pipelines.core@7.5.3/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
+        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk-Demo/Cyberjunk-Demo/Library/PackageCache/com.unity.render-pipelines.core@7.5.3/Editor/ShaderGenerator/ICSharpCode.NRefactory.dll</HintPath>
     </Reference>
     <Reference Include="nunit.framework">
-        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk2020-Updated/CyberjunkCoolRepository/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
+        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk-Demo/Cyberjunk-Demo/Library/PackageCache/com.unity.ext.nunit@1.0.6/net35/unity-custom/nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="mscorlib">
         <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.19f1/Editor/Data/MonoBleedingEdge/lib/mono/4.7.1-api/mscorlib.dll</HintPath>
@@ -605,21 +605,21 @@
         <HintPath>C:/Program Files/Unity/Hub/Editor/2019.4.19f1/Editor/Data/MonoBleedingEdge/lib/mono/unityscript/Boo.Lang.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.UI">
-        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk2020-Updated/CyberjunkCoolRepository/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
+        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk-Demo/Cyberjunk-Demo/Library/ScriptAssemblies/UnityEditor.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.UI">
-        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk2020-Updated/CyberjunkCoolRepository/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
+        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk-Demo/Cyberjunk-Demo/Library/ScriptAssemblies/UnityEngine.UI.dll</HintPath>
     </Reference>
     <Reference Include="UnityEditor.TestRunner">
-        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk2020-Updated/CyberjunkCoolRepository/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
+        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk-Demo/Cyberjunk-Demo/Library/ScriptAssemblies/UnityEditor.TestRunner.dll</HintPath>
     </Reference>
     <Reference Include="UnityEngine.TestRunner">
-        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk2020-Updated/CyberjunkCoolRepository/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
+        <HintPath>C:/Users/Tony/Documents/GitHub/Cyberjunk-Demo/Cyberjunk-Demo/Library/ScriptAssemblies/UnityEngine.TestRunner.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="AstarPathfindingProject.csproj">
-      <Project>{dcdf36e8-f48a-2d7f-4040-2baf52439bd6}</Project>
+      <Project>{14d6d046-e40e-e262-aca2-84b0d815c775}</Project>
       <Name>AstarPathfindingProject</Name>
     </ProjectReference>
   </ItemGroup>
