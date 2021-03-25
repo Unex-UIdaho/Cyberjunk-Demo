@@ -64,8 +64,7 @@ public class BulletScript : MonoBehaviour
         //Debug.Log(bulletAngle);
         if (passThrough == 0)
             passThrough = 1;
-
-        live = GlobalVariable.live++;
+        
         lastPosition = transform.position;
         
         //Sorting Layer

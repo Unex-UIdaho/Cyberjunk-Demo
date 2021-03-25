@@ -2,11 +2,15 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
-public static class GlobalVariable
+public static class Global
 {
     //public static Vector3 mouse_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-    public static int live = 0;
+    public static bool shopActive = false;
+    public static bool startRender = false;
+    public static GameObject shopObject;
+
 }
 
 public class GameManager : MonoBehaviour
@@ -34,7 +38,7 @@ public class GameManager : MonoBehaviour
     //Testing Enemies
     public GameObject Enemy;
     public float maxEnemiesOnScreen;
-    float enemiesOnScreen;
+    //float enemiesOnScreen;
     public float spawnRate = 100;
     public float spawn = 0;
     private float xmin, xmax, ymin, ymax;
@@ -45,42 +49,39 @@ public class GameManager : MonoBehaviour
     int maxPos = 0;
 
     //Zoom
-    private float targetZoom;
+    public float targetZoom;
     [SerializeField] private float zoomLerpSpeed = 10;
 
     //Player Spawn
-    public GameObject player;
-
-    //Room Generator
-    public GameObject tile;
-
-    public GameObject wallHorizontal;
-    public GameObject wallVertical;
-    public GameObject wallVerticalUpRight;
-    public GameObject wallVerticalUpLeft;
-    public GameObject wallVerticalDownRight;
-    public GameObject wallVerticalDownLeft;
-
-    GameObject wall;
+    public GameObject playerObj;
+    GameObject player;
 
     //Tile
     public GameObject tileParent;
     GameObject EnemyParent;
 
-    float numFrames = 0; //FPS Counter
+    bool spawnStart = false;
+
+    //float numFrames = 0; //FPS Counter
     float frameSum;
 
     private void Start()
     {
         //VSync
-        QualitySettings.vSyncCount = 1;
+        //QualitySettings.vSyncCount = 1;
 
-        enemiesOnScreen = 0;
+        //enemiesOnScreen = 0;
         
         EnemyParent = GameObject.Find("TempEnemies");
 
-        player = Instantiate(player, new Vector3(playerSpawn.transform.position.x, playerSpawn.transform.position.y, 0), transform.rotation) as GameObject;
-        playerTransform = player.GetComponent<Transform>();
+        playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");
+
+        if (playerSpawn)
+        {
+            player = Instantiate(playerObj, new Vector3(playerSpawn.transform.position.x, playerSpawn.transform.position.y, 0), transform.rotation) as GameObject;
+            playerTransform = player.GetComponent<Transform>();
+            Destroy(playerSpawn);
+        }
 
         target = GetComponent<Transform>();
 
@@ -97,7 +98,7 @@ public class GameManager : MonoBehaviour
         mainCam = Camera.main;
         targetZoom = mainCam.orthographicSize;
 
-        float room_width = 3;
+        /*float room_width = 3;
         float room_height = 3;
 
         float tileCoeff = 2.61996f;
@@ -109,7 +110,7 @@ public class GameManager : MonoBehaviour
         float yTile = 0.65626f;
 
         float wallOffset = 0.65625f;//0.87f;
-        
+        */
         //maxPos = TileParent.transform.childCount;
 
         //float point;
@@ -143,16 +144,7 @@ public class GameManager : MonoBehaviour
         maxPos--;*/
 
         //Store Tile Coordinates
-        GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
-
-        maxPos = 0;
-        foreach(GameObject tile in tiles)
-        {
-            xTilePos[maxPos] = tile.transform.position.x;
-            yTilePos[maxPos] = tile.transform.position.y;
-            maxPos++;
-        }
-        maxPos--;
+        
 
         /*for(int i = 0; i < maxPos; i++)
         {
@@ -312,80 +304,140 @@ public class GameManager : MonoBehaviour
         Debug.ClearDeveloperConsole();*/
 
         //Testing Enemies
-        /*                   spawn++;
 
-        //Enemies in level
-        enemiesOnScreen = EnemyParent.transform.childCount;
+        //COMMENT
 
-        if (spawn >= spawnRate && player && enemiesOnScreen < maxEnemiesOnScreen)
+        GameObject tileExists = GameObject.FindGameObjectWithTag("Tile");
+
+        if (tileExists && !spawnStart)
         {
-            spawn = 0;
-            Vector3 randPos;
-            int rand;
+            GameObject[] tiles = GameObject.FindGameObjectsWithTag("Tile");
 
-            do {
-                rand = Mathf.RoundToInt(Random.Range(0, maxPos));
-                randPos = new Vector3(xTilePos[rand], yTilePos[rand], 0);
-            } while (Vector2.Distance(randPos, player.transform.position) < 20);
+            maxPos = 0;
+            foreach (GameObject tile in tiles)
+            {
+                xTilePos[maxPos] = tile.transform.position.x;
+                yTilePos[maxPos] = tile.transform.position.y;
+                maxPos++;
+            }
+            maxPos--;
 
-
-            GameObject enemy = Instantiate(Enemy, new Vector3(xTilePos[rand], yTilePos[rand], 0), transform.rotation) as GameObject;
-
-            //enemy.gameObject.GetComponent<BulletScript>();
-            //BulletScript enemyScript = enemy.GetComponent<BulletScript>();
+            spawnStart = true;
+            Global.startRender = true;
         }
-        //spawn = 2;
 
-        */
+        if (spawnStart)
+        {
+            spawn++;
+
+            //Enemies in level
+            int enemiesOnScreen = EnemyParent.transform.childCount;
+
+            if (spawn >= spawnRate && player && enemiesOnScreen < maxEnemiesOnScreen)
+            {
+                spawn = 0;
+                Vector3 randPos;
+                int rand;
+
+                do
+                {
+                    rand = Mathf.RoundToInt(Random.Range(0, maxPos));
+                    randPos = new Vector3(xTilePos[rand], yTilePos[rand], 0);
+                } while (Vector2.Distance(randPos, player.transform.position) < 20);
+
+
+                GameObject enemy = Instantiate(Enemy, new Vector3(xTilePos[rand], yTilePos[rand], 0), transform.rotation) as GameObject;
+
+                //enemy.gameObject.GetComponent<BulletScript>();
+                //BulletScript enemyScript = enemy.GetComponent<BulletScript>();
+            }
+            //spawn = 2;
+
+            //COMMENT
+
+            playerSpawn = GameObject.FindGameObjectWithTag("PlayerSpawn");
+
+            if (!player && playerSpawn)
+            {
+                player = Instantiate(playerObj, new Vector3(playerSpawn.transform.position.x, playerSpawn.transform.position.y, 0), transform.rotation) as GameObject;
+                playerTransform = player.GetComponent<Transform>();
+                Destroy(playerSpawn);
+            }
+
+            //Restart with Backspace //REMOVEEE
+            if (Input.GetKeyDown(KeyCode.Backspace))
+            {
+                SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            }
+            if (Input.GetKeyDown(KeyCode.Escape))
+            {
+                Application.Quit();
+            }
+        }
     }
 
     void FixedUpdate()
     {
-        //Camera Follow
-        mouse_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+        if (!Global.shopActive)
+        {
+            xMin = mapBounds.bounds.min.x;
+            xMax = mapBounds.bounds.max.x;
+            yMin = mapBounds.bounds.min.y;
+            yMax = mapBounds.bounds.max.y;
 
-        if (player)
-        { 
-            if ((Vector2.Distance(mouse_position, playerTransform.position) / 4) < (maxOffset))
+            //Camera Follow
+            mouse_position = Camera.main.ScreenToWorldPoint(Input.mousePosition);
+
+            if (player)
             {
-                offset = new Vector2(mouse_position.x - playerTransform.position.x, mouse_position.y - playerTransform.position.y)/4;
+                if ((Vector2.Distance(mouse_position, playerTransform.position) / 4) < (maxOffset))
+                {
+                    offset = new Vector2(mouse_position.x - playerTransform.position.x, mouse_position.y - playerTransform.position.y) / 4;
+                }
+                else
+                {
+                    float xDist = mouse_position.x - playerTransform.position.x;
+                    float yDist = mouse_position.y - playerTransform.position.y;
+
+                    float angle = Mathf.Atan(yDist / xDist);
+
+                    float xMax = Mathf.Sign(xDist) * maxOffset * Mathf.Cos(angle);
+                    float yMax = Mathf.Sign(xDist) * maxOffset * Mathf.Sin(angle);
+
+                    offset.x = xMax;
+                    offset.y = yMax;
+                }
+
+                //Zoom
+                float scrollData = Input.GetAxis("Mouse ScrollWheel");
+                targetZoom = (Vector2.Distance(new Vector2(0f, 0f), offset) / 1.2f) + minZoom;
+                targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
+
+                //Debug.Log(targetZoom);
+
+                mainCam.orthographicSize = Mathf.Lerp(mainCam.orthographicSize, targetZoom, Time.deltaTime * zoomLerpSpeed);
+                camOrthsize = mainCam.orthographicSize;
+                cameraRatio = (xMax / 2.0f + camOrthsize) / 2.0f;
+
+                //Coordinate Text
+                //coord_x.text = transform.position.x.ToString();
+                //coord_y.text = transform.position.y.ToString();
+
+                //Camera Movement and Clamp
+                camY = Mathf.Clamp(playerTransform.position.y + offset.y, yMin + camOrthsize, yMax - camOrthsize);
+                camX = Mathf.Clamp(playerTransform.position.x + offset.x, xMin + cameraRatio, xMax - cameraRatio);
+
+                this.transform.position = new Vector3(camX, camY, this.transform.position.z);
             }
-            else
-            {
-                float xDist = mouse_position.x - playerTransform.position.x;
-                float yDist = mouse_position.y - playerTransform.position.y;
-
-                float angle = Mathf.Atan(yDist / xDist);
-
-                float xMax = Mathf.Sign(xDist) * maxOffset * Mathf.Cos(angle);
-                float yMax = Mathf.Sign(xDist) * maxOffset * Mathf.Sin(angle);
-
-                offset.x = xMax;
-                offset.y = yMax;
-            }
-
-            //Zoom
-            float scrollData = Input.GetAxis("Mouse ScrollWheel");
-            targetZoom = (Vector2.Distance(new Vector2(0f, 0f), offset) / 1.2f) + minZoom;
-            targetZoom = Mathf.Clamp(targetZoom, minZoom, maxZoom);
-
-            mainCam.orthographicSize = Mathf.Lerp(mainCam.orthographicSize, targetZoom, Time.deltaTime * zoomLerpSpeed);
-            camOrthsize = mainCam.orthographicSize;
-            cameraRatio = (xMax / 2.0f + camOrthsize) / 2.0f;
-
-            //Coordinate Text
-            //coord_x.text = transform.position.x.ToString();
-            //coord_y.text = transform.position.y.ToString();
-        
-            //Camera Movement and Clamp
-            camY = Mathf.Clamp(playerTransform.position.y + offset.y, yMin + camOrthsize, yMax - camOrthsize);
-            camX = Mathf.Clamp(playerTransform.position.x + offset.x, xMin + cameraRatio, xMax - cameraRatio);
-
-            this.transform.position = new Vector3(camX, camY, this.transform.position.z);
-            ScreenShake shake = GetComponent<ScreenShake>();
-            shake.initialPos.x = transform.position.x;
-            shake.initialPos.y = transform.position.y;
-            shake.initialPos.z = -10;
         }
+        else if (Global.shopObject)
+        {
+            this.transform.position = new Vector3(Global.shopObject.transform.position.x, Global.shopObject.transform.position.y, this.transform.position.z);
+        }
+
+        ScreenShake shake = GetComponent<ScreenShake>();
+        shake.initialPos.x = transform.position.x;
+        shake.initialPos.y = transform.position.y;
+        shake.initialPos.z = -10;
     }
 }

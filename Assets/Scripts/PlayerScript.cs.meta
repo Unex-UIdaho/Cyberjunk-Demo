@@ -3,7 +3,16 @@ guid: bda580822e4fdd54f9f3577c50be3aca
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - healthbar: {instanceID: 0}
+  - Hand: {instanceID: 0}
+  - weapon0: {instanceID: 0}
+  - weapon1: {instanceID: 0}
+  - weapon2: {instanceID: 0}
+  - weapon3: {instanceID: 0}
+  - weapon4: {instanceID: 0}
+  - rb: {instanceID: 0}
+  - animator: {instanceID: 0}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

@@ -1,0 +1,16 @@
+{
+    "name": "Testing",
+    "references": [
+        "GUID:efa45043feb7e4147a305b73b5cea642",
+        "GUID:e24c82c13252fe04aa6f52133b636bf8"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

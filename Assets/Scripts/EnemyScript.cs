@@ -46,8 +46,8 @@ public class EnemyScript : MonoBehaviour
 
     //Follow player
     GameObject player;
-    Renderer weaponRender;
-    Renderer render;
+    SpriteRenderer weaponRender;
+    SpriteRenderer render;
 
     GameObject EnemyParent;
 
@@ -63,8 +63,8 @@ public class EnemyScript : MonoBehaviour
         weapon.tag = "EnemyWeapon";
         weaponScript.parent = gameObject;
         weaponScript.Hand = Hand;
-        weaponRender = weapon.GetComponent<Renderer>();
-        render = GetComponent<Renderer>();
+        weaponRender = weapon.GetComponent<SpriteRenderer>();
+        render = GetComponent<SpriteRenderer>();
 
         //AI Pathing
         player = GameObject.FindWithTag("Player");
@@ -90,7 +90,7 @@ public class EnemyScript : MonoBehaviour
         //AI Pathing
         player = GameObject.FindWithTag("Player");
 
-        if (player && playerSeen == true && (Vector2.Distance(transform.position, player.transform.position) > 5 || shoot == false) && (GetComponent<Renderer>().isVisible))
+        if (player && playerSeen == true && (Vector2.Distance(transform.position, player.transform.position) > 5 || shoot == false))// && (GetComponent<SpriteRenderer>().isVisible))
         {
             GetComponent<AIPath>().destination = player.transform.position + new Vector3(0, -0.5f, 0);
             dir = GetComponent<AIPath>().desiredVelocity;
@@ -114,32 +114,6 @@ public class EnemyScript : MonoBehaviour
                 Destroy(healthbar);
             }
             Destroy(gameObject);
-        }
-
-        //If hit, wait then turn back to normal (blink red and transparent)
-        if (hit > 0)
-        {
-            if (Mathf.FloorToInt(hit / 20) % 2 == 0)
-            {
-                render.material.color = new Color(0, 0, 0, 0);
-                if (weapon)
-                    weaponRender.material.color = new Color(0, 0, 0, 0);
-            }
-            else
-            {
-                render.material.color = Color.red;
-                if (weapon)
-                    weaponRender.material.color = Color.red;
-            }
-
-            hit--;
-            if (hit <= 0)
-            {
-                render.material.color = Color.white;
-                if (weapon)
-                    weaponRender.material.color = Color.white;
-                invincible = false;
-            }
         }
 
         selfsort = gameObject.GetComponent<SpriteRenderer>(); //Used to find sorting order
@@ -272,6 +246,32 @@ public class EnemyScript : MonoBehaviour
 
     void FixedUpdate()
     {
+        //If hit, wait then turn back to normal (blink red and transparent)
+        if (hit > 0)
+        {
+            if (Mathf.FloorToInt(hit / 8) % 2 == 0)
+            {
+                render.color = new Color(0, 0, 0, 0);
+                if (weapon)
+                    weaponRender.color = new Color(0, 0, 0, 0);
+            }
+            else
+            {
+                render.color = Color.red;
+                if (weapon)
+                    weaponRender.color = Color.red;
+            }
+
+            hit--;
+            if (hit <= 0)
+            {
+                render.color = Color.white;
+                if (weapon)
+                    weaponRender.color = Color.white;
+                invincible = false;
+            }
+        }
+
         //Check if able to shoot at player
         if (player)
         {
@@ -330,7 +330,7 @@ public class EnemyScript : MonoBehaviour
 
             health -= bulletScript.bulletDamage;
             bulletScript.passThrough--;
-            GetComponent<Renderer>().material.color = Color.red;
+            GetComponent<SpriteRenderer>().color = Color.red;
 
             deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
             float second = 1.0f / deltaTime;

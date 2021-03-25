@@ -5,6 +5,7 @@ using UnityEngine;
 //This script is given to ALL Gun prefabs////////////////////////////////////
 public class GunScript : MonoBehaviour
 {
+    public SoundHandler soundHandler;
     public GameObject Bullet;
     [Range(-2, 2)]
     public float bulletOffsetX;
@@ -20,11 +21,21 @@ public class GunScript : MonoBehaviour
     GameObject rightHand;
     Renderer leftHandRender;
     Renderer rightHandRender;
+
+    [HideInInspector]
     public GameObject muzzleFlash;
-    [Range(-2, 2)]
+    //[Range(-2, 2)]
+    [HideInInspector]
     public float muzzleFlashOffsetX;
-    [Range(-2, 2)]
+    //[Range(-2, 2)]
+    [HideInInspector]
     public float muzzleFlashOffsetY;
+
+    public GameObject flashlight;
+    [Range(-2, 2)]
+    public float flashlightOffsetX;
+    [Range(-2, 2)]
+    public float flashlightOffsetY;
     private ScreenShake Shaker;
     [Range(0, 1)]
     public float screenShakeDuration;
@@ -84,6 +95,12 @@ public class GunScript : MonoBehaviour
     [HideInInspector]
     public bool destroy = false;
 
+    //Flashlight
+    [HideInInspector]
+    public bool flashlightOn = false;
+
+    GameObject light;
+
     // Start is called before the first frame update
     void Start()
     {
@@ -102,11 +119,117 @@ public class GunScript : MonoBehaviour
         height = sprite.bounds.extents.y * 2; //Distance to the top * 2, from your center point
 
         Shaker = Object.FindObjectOfType<ScreenShake>();
+
+        pos_x = transform.position.x;
+        pos_y = transform.position.y;
+
+        if (Mathf.Sign(transform.localScale.x) > 0)
+        {
+            sign = 1;
+
+            angle_width = transform.rotation.eulerAngles.z * (Mathf.PI / 180);
+            angle_height = (90 + transform.rotation.eulerAngles.z) * (Mathf.PI / 180);
+
+            offsetx_width = Mathf.Cos(angle_width);
+            offsety_width = Mathf.Sin(angle_width);
+
+            offsetx_height = Mathf.Cos(angle_height);
+            offsety_height = Mathf.Sin(angle_height);
+        }
+        else
+        {
+            sign = -1;
+
+            angle_width = (transform.rotation.eulerAngles.z + 180) * (Mathf.PI / 180);
+            angle_height = (90 + (transform.rotation.eulerAngles.z + 180)) * (Mathf.PI / 180);
+
+            offsetx_width = Mathf.Cos(angle_width);
+            offsety_width = Mathf.Sin(angle_width);
+
+            offsetx_height = Mathf.Cos(angle_height);
+            offsety_height = Mathf.Sin(angle_height);
+        }
+
+        if (flashlight)
+        {
+            light = Instantiate(flashlight, transform.position, Quaternion.identity) as GameObject;
+            light.transform.parent = this.transform;
+            light.transform.eulerAngles = new Vector3(light.transform.eulerAngles.x, light.transform.eulerAngles.y, transform.eulerAngles.z + 270*sign);
+            light.transform.position = new Vector3(light.transform.position.x + (offsetx_width * flashlightOffsetX) + (sign * offsetx_height * flashlightOffsetY), light.transform.position.y + (offsety_width * flashlightOffsetX) + (sign * offsety_height * flashlightOffsetY), light.transform.position.z);
+
+            if (light)
+            {
+                if (flashlightOn == true)
+                {
+                    light.gameObject.SetActive(true);
+                }
+                else
+                {
+                    light.SetActive(false);
+                }
+            }
+        }
+
+        //Hand Sorting Order
+        if (twoHanded)
+        {
+            leftHand.transform.position = new Vector3(pos_x + (offsetx_width * ((-width / 4) + handOffsetX)) + (sign * offsetx_height * (handOffsetY)), pos_y + (offsety_width * ((-width / 4) + handOffsetX)) + (sign * offsety_height * (handOffsetY)), 0);
+            rightHand.transform.position = new Vector3(pos_x + (offsetx_width * ((width / 4) + handOffsetX)) + (sign * offsetx_height * (handOffsetY)), pos_y + (offsety_width * ((width / 4) + handOffsetX)) + (sign * offsety_height * (handOffsetY)), 0);
+
+            leftHand.transform.eulerAngles = new Vector3(
+                leftHand.transform.eulerAngles.x,
+                leftHand.transform.eulerAngles.y,
+                transform.eulerAngles.z
+            );
+            rightHand.transform.eulerAngles = new Vector3(
+                rightHand.transform.eulerAngles.x,
+                rightHand.transform.eulerAngles.y,
+                transform.eulerAngles.z
+            );
+
+            leftHandRender.sortingOrder = sprite.sortingOrder + 1;//+ layerOrder;
+            rightHandRender.sortingOrder = sprite.sortingOrder + 1;//+ layerOrder;
+        }
+        else
+        {
+            Vector3 offset_right = new Vector3(0.3f, -0.5f, 0);//new Vector3(0.5f, -0.5f, 0); //Offset for the weapon on the right hand
+            Vector3 offset_left = new Vector3(-0.3f, -0.5f, 0);//new Vector3(-0.5f, -0.5f, 0); //Offset for the weapon on the left hand
+
+            leftHand.transform.position = parent.transform.position + offset_left;
+            rightHand.transform.position = parent.transform.position + offset_right;
+
+            leftHand.transform.eulerAngles = new Vector3(
+                leftHand.transform.eulerAngles.x,
+                leftHand.transform.eulerAngles.y,
+                0
+            );
+            rightHand.transform.eulerAngles = new Vector3(
+                rightHand.transform.eulerAngles.x,
+                rightHand.transform.eulerAngles.y,
+                0
+            );
+
+            leftHandRender.sortingOrder = sprite.sortingOrder + 1;//+ layerOrder;
+            rightHandRender.sortingOrder = sprite.sortingOrder + 1;//+ layerOrder;
+        }
+        soundHandler = GetComponent<SoundHandler>();
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (light)
+        {
+            if (flashlightOn == true)
+            {
+                light.gameObject.SetActive(true);
+            }
+            else
+            {
+                light.SetActive(false);
+            }
+        }
+        
         if (destroy == true)
         {
             Destroy(leftHand);
@@ -162,6 +285,17 @@ public class GunScript : MonoBehaviour
 
             leftHandRender.sortingOrder = sprite.sortingOrder + 1;//+ layerOrder;
             rightHandRender.sortingOrder = sprite.sortingOrder + 1;//+ layerOrder;
+
+            leftHand.transform.eulerAngles = new Vector3(
+                leftHand.transform.eulerAngles.x,
+                leftHand.transform.eulerAngles.y,
+                transform.eulerAngles.z
+            );
+            rightHand.transform.eulerAngles = new Vector3(
+                rightHand.transform.eulerAngles.x,
+                rightHand.transform.eulerAngles.y,
+                transform.eulerAngles.z
+            );
         }
         else
         {
@@ -186,15 +320,21 @@ public class GunScript : MonoBehaviour
             rightHandRender.sortingOrder = sprite.sortingOrder + 1;//+ layerOrder;
         }
 
-        leftHandRender.GetComponent<Renderer>().material.color = GetComponent<Renderer>().material.color;
-        rightHandRender.GetComponent<Renderer>().material.color = GetComponent<Renderer>().material.color;
+        //Hand Properties
 
-        if ((((Input.GetMouseButtonDown(0) && automaticAssault == false) ||
-             (Input.GetMouseButtonDown(0) && automaticAssault == true && tempAssault <= 0) ||
-             (Input.GetMouseButton(0) && automaticAssault == true && tempAssault <= 0)) && tag == "Weapon") ||
-             (shoot == true && semi_temp <= 0 && (automaticAssault == false) || (shoot == true && automaticAssault == true && tempAssault <= 0) && tag == "EnemyWeapon"))
+        leftHandRender.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
+        rightHandRender.GetComponent<SpriteRenderer>().color = GetComponent<SpriteRenderer>().color;
+
+        if ((Global.shopActive == false && tag == "Weapon") || tag == "EnemyWeapon")
         {
-            shootCheck = true;
+            if ((((Input.GetMouseButtonDown(0) && automaticAssault == false) ||
+                 (Input.GetMouseButtonDown(0) && automaticAssault == true && tempAssault <= 0) ||
+                 (Input.GetMouseButton(0) && automaticAssault == true && tempAssault <= 0)) && tag == "Weapon") ||
+                 (shoot == true && semi_temp <= 0 && (automaticAssault == false) || (shoot == true && automaticAssault == true && tempAssault <= 0) && tag == "EnemyWeapon"))
+            {
+                shootCheck = true;
+                
+            }
         }
 
         //Laser Sight
@@ -251,6 +391,7 @@ public class GunScript : MonoBehaviour
 
             if (tag == "Weapon")
             {
+                soundHandler.PlayRifleSound();
                 Shaker.Shake(screenShakeDuration, screenShakeIntensity);
             }
 
