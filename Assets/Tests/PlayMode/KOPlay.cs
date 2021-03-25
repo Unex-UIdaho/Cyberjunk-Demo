@@ -16,7 +16,18 @@ namespace Tests
             // Use the Assert class to test conditions
             SceneManager.LoadScene("TestScene");
         }
-
+        [UnityTest]
+        public IEnumerator EnemiesSpawn()
+        {
+            for (int i = 0; i < 300; i++)
+            {
+                yield return null;
+            }
+            // Use the Assert class to test conditions.
+            // Use yield to skip a frame.
+            int numberOfEnemies = GameObject.FindGameObjectsWithTag("Enemy").Length;
+            Assert.That(numberOfEnemies > 5);
+        }
         // A UnityTest behaves like a coroutine in Play Mode. In Edit Mode you can use
         // `yield return null;` to skip a frame.
         [UnityTest]
