@@ -99,6 +99,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   self: {fileID: 5857962448876617185}
+  light: {fileID: 501048363035454500, guid: 609bd0345c4db654987ddc2db0a71e67, type: 3}
 --- !u!50 &8149398904969166600
 Rigidbody2D:
   serializedVersion: 4

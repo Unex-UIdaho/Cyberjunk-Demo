@@ -18,9 +18,9 @@ GameObject:
   - component: {fileID: -441160279052123074}
   - component: {fileID: 2430796617432967962}
   - component: {fileID: 7762834401960936581}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Enemy
-  m_TagString: Untagged
+  m_TagString: Enemy
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -101,7 +101,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 92e3d7f4aeec48f459ee09538f85a1d0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startDelay: 100
+  startDelay: 20
   maxHealth: 50
   healthbar: {fileID: 7807128909882388774, guid: a123ee0082692d146890fb766cdc2663,
     type: 3}
@@ -168,7 +168,7 @@ Animator:
   m_GameObject: {fileID: 1688376386771329560}
   m_Enabled: 1
   m_Avatar: {fileID: 0}
-  m_Controller: {fileID: 9100000, guid: 268fefa26615ac044870a23b7e61b449, type: 2}
+  m_Controller: {fileID: 22100000, guid: c584db5549e2a894ebde4948b467dc8f, type: 2}
   m_CullingMode: 0
   m_UpdateMode: 0
   m_ApplyRootMotion: 0

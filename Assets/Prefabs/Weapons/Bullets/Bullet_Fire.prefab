@@ -82,12 +82,12 @@ PrefabInstance:
     - target: {fileID: 338442599847859401, guid: 12412caa01aaf7a4abcacc64ebc7a044,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 5.4
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 338442599847859401, guid: 12412caa01aaf7a4abcacc64ebc7a044,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.61
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 338442599847859401, guid: 12412caa01aaf7a4abcacc64ebc7a044,
         type: 3}
@@ -133,7 +133,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Sprite
       value: 
-      objectReference: {fileID: 21300000, guid: 0eabe5360b783d743bbfaaac7600a56b,
+      objectReference: {fileID: 21300000, guid: da73e7e0cfd12be4593532ab8c8e045a,
         type: 3}
     - target: {fileID: 3731906848175839097, guid: 12412caa01aaf7a4abcacc64ebc7a044,
         type: 3}
@@ -148,7 +148,7 @@ PrefabInstance:
     - target: {fileID: 7368229585212389126, guid: 12412caa01aaf7a4abcacc64ebc7a044,
         type: 3}
       propertyPath: m_Name
-      value: Bullet_Plasma
+      value: Bullet_Fire
       objectReference: {fileID: 0}
     - target: {fileID: 7368229585212389126, guid: 12412caa01aaf7a4abcacc64ebc7a044,
         type: 3}
